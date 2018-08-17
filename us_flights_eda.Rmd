@@ -48,6 +48,7 @@ df %>%
     count() %>% 
       ggplot(aes(x=YEAR, y = n)) +
       geom_line() +
+      theme(axis.text.x = element_text(angle = 60, hjust = 1)) +
       geom_point() +
       xlab("\nYear") +
       ylab("Count\n") +
@@ -71,6 +72,7 @@ max_num_airlines <- df %>%
 max_num_airlines %>% 
     knitr::kable(col.names = c("Carriers", "Frequency (1990-2017)"), format.args = list(big.mark = (",")), align = c('c','c'))
 ```
+
 Now, let's explore which of these airlines had the most number of flights in each year, starting from 1990 to 2017. 
 
 ```{r}
@@ -110,6 +112,7 @@ max_dest_states <- df %>%
 max_dest_states %>% 
     knitr::kable(col.names = c("Destination States", "Frequency (1990-2017)"), format.args = list(big.mark = (",")), align = c('c','c'))
 ```
+
 Now, let's explore which of these states had the most number of originating flights in each year, starting from 1990 to 2017. 
 
 ```{r}
@@ -142,7 +145,7 @@ We notice that carriers started operating in *Alaska* from 2002 onwards, after w
 
 This is strange! There is a spike in number of flights in 2002 as well, when *Hageland Aviation Service* started operating. Let's explore this further by finding out where did *Hageland Aviation Service* start operating. 
 
-We can see that the total number of *Hageland Aviation Service* flights operating in 2002, the number of flights operating within Alaska that year of *Hageland Aviation Service* and the total number of flights operating within Alaska that year respectively were as follows:
+We can see that the total number of *Hageland Aviation Service* flights operating in 2002 was 72623, the number of flights operating within Alaska that year of *Hageland Aviation Service* was 72602 and the total number of flights operating within Alaska that year was 123372.
 
 ```{r}
 #Total number of Hageland Aviation Service flights in Alaska
@@ -151,7 +154,6 @@ total_num_hageland <- df %>%
                           select(ORIGIN_STATE_NM, DEST_STATE_NM, CARRIER_NAME) %>%
                             filter(CARRIER_NAME == "Hageland Aviation Service") %>%
                               count()
-total_num_hageland
 
 #Number of Hageland Aviation Service flights operating within Alaska
 num_hageland_alaska <- df %>% 
@@ -160,7 +162,6 @@ num_hageland_alaska <- df %>%
                               filter(ORIGIN_STATE_NM == "Alaska") %>% 
                                 filter(DEST_STATE_NM == "Alaska") %>% 
                                   count()  
-num_hageland_alaska
 #Number of flights operating within Alaska
 total_num_alaska <- df %>% 
                       filter(YEAR == 2002) %>%
@@ -168,7 +169,6 @@ total_num_alaska <- df %>%
                           filter(ORIGIN_STATE_NM == "Alaska") %>%
                             filter(DEST_STATE_NM == "Alaska") %>% 
                               count()
-total_num_alaska
 ```
 Since Alaska has the most operating flights, let us provide a summary of which flights operate the most within Alaska and try to explain the constant large number of operating flights from 2002 onwards, as seen in Figure 1.
 
@@ -218,6 +218,7 @@ df %>%
         arrange(desc(n)) %>% 
           knitr::kable(col.names = c("Month", "Number"), align = c('c','c'), format.args = list(big.mark = ","))
 ```
+
 We can see that the most amount of travel occurs in July and August. 
 
 Let us see during which month did the most travel occur over 1990 to 2017.
@@ -235,6 +236,7 @@ df %>%
           head(5) %>% 
             knitr::kable(col.names = c("Month and year", "Number"), format.args = list(big.mark = ","), align = c('c','c'))
 ```
+
 Thus, we observe that passengers traveled the most since 1990 in July 2016, followed by July 2015, followed by June 2016, and August 2016. 
 
 The year in which the most travel occurred is as follows:
@@ -248,6 +250,7 @@ df %>%
           head(5) %>% 
             knitr::kable(col.names = c("Year", "Number"), align = c('c','c'), format.args = list(big.mark = ","))
 ```
+
 We can see that the highest amount of travel occurred in 2016, followed by 2015 and 2007.
 
 Thus, passengers traveled the most in Quarter 3, in months July and August, specifically the highest ever in July 2016 and in the year 2016.
