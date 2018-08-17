@@ -142,6 +142,8 @@ We notice that carriers started operating in *Alaska* from 2002 onwards, after w
 
 This is strange! There is a spike in number of flights in 2002 as well, when *Hageland Aviation Service* started operating. Let's explore this further by finding out where did *Hageland Aviation Service* start operating. 
 
+We can see that the total number of *Hageland Aviation Service* flights operating in 2002, the number of flights operating within Alaska that year of *Hageland Aviation Service* and the total number of flights operating within Alaska that year respectively were as follows:
+
 ```{r}
 #Total number of Hageland Aviation Service flights in Alaska
 total_num_hageland <- df %>% 
@@ -149,7 +151,8 @@ total_num_hageland <- df %>%
                           select(ORIGIN_STATE_NM, DEST_STATE_NM, CARRIER_NAME) %>%
                             filter(CARRIER_NAME == "Hageland Aviation Service") %>%
                               count()
-              
+total_num_hageland
+
 #Number of Hageland Aviation Service flights operating within Alaska
 num_hageland_alaska <- df %>% 
                         filter(YEAR == 2002) %>% 
@@ -157,7 +160,7 @@ num_hageland_alaska <- df %>%
                               filter(ORIGIN_STATE_NM == "Alaska") %>% 
                                 filter(DEST_STATE_NM == "Alaska") %>% 
                                   count()  
-
+num_hageland_alaska
 #Number of flights operating within Alaska
 total_num_alaska <- df %>% 
                       filter(YEAR == 2002) %>%
@@ -165,10 +168,8 @@ total_num_alaska <- df %>%
                           filter(ORIGIN_STATE_NM == "Alaska") %>%
                             filter(DEST_STATE_NM == "Alaska") %>% 
                               count()
+total_num_alaska
 ```
-
-We can see that the total number of *Hageland Aviation Service* flights operating in 2002 were `r format(total_num_hageland, big.mark = ",")` and the number of flights operating within Alaska that year of *Hageland Aviation Service* were `r format(num_hageland_alaska, big.mark = ",")`. The total number of flights operating within Alaska that year were `r format(total_num_alaska, big.mark = ",")`.
-
 Since Alaska has the most operating flights, let us provide a summary of which flights operate the most within Alaska and try to explain the constant large number of operating flights from 2002 onwards, as seen in Figure 1.
 
 ```{r}
