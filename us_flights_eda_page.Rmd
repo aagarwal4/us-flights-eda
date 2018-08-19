@@ -2,7 +2,7 @@
 title: "Exploratory Data Analysis of US Flights"
 author: "Anant Agarwal"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
-output: pdf_document
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
@@ -21,6 +21,7 @@ library(magrittr)
 library(ggplot2)
 library(reshape2)
 library(scales)
+library(kableExtra)
 ```
 ```{r}
 #Creating a list of names of the csv files
@@ -55,6 +56,7 @@ df %>%
       scale_y_continuous(labels = comma) +
       scale_x_continuous(breaks = seq(1990, 2017, by=1), limits = c(1990,2017))
 ```
+<br>
 *Figure 1: The total number of US flights operated over the time period 1990-2017 worldwide *
 
 We observe that there is a sudden jump in the total number of flights in year 2002, which we will investigate later. The airlines with the highest number of flights are as follows:
@@ -68,7 +70,8 @@ max_num_airlines <- df %>%
                             head(10) 
 
 max_num_airlines %>% 
-    knitr::kable(col.names = c("Carriers", "Frequency (1990-2017)"), format.args = list(big.mark = (",")), align = c('c','c'))
+    knitr::kable(col.names = c("Carriers", "Frequency (1990-2017)"), format.args = list(big.mark = (",")), align = c('c','c')) %>% 
+                  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F)
 ```
 
 Now, let's explore which of these airlines had the most number of flights in each year, starting from 1990 to 2017. 
@@ -82,6 +85,7 @@ df %>%
           ylab("Number of flights") +
             scale_fill_discrete(name = "Carrier Names")
 ```
+<br>
 **Figure 2: The number of flights operated yearly by the biggest overall carriers from 1990 to 2017**
 
 Here, we can clearly see that *Hageland Aviation Service* carrier had a sudden jump in 2002, maybe because it started operating in that year. After that, it went down and the total counts as seen above still don't explain why the jump occurred in Figure 1 which continued 2002 onwards. 
@@ -99,7 +103,8 @@ max_origin_states <- df %>%
                               head(10) 
 
 max_origin_states %>% 
-    knitr::kable(col.names = c("Origin States", "Frequency (1990-2017)"), format.args = list(big.mark = (",")), align = c('c','c'))
+    knitr::kable(col.names = c("Origin States", "Frequency (1990-2017)"), format.args = list(big.mark = (",")), align = c('c','c'))%>% 
+                  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F)
 
 max_dest_states <- df %>%
                         group_by(DEST_STATE_NM) %>% 
@@ -108,7 +113,8 @@ max_dest_states <- df %>%
                               head(10)
 
 max_dest_states %>% 
-    knitr::kable(col.names = c("Destination States", "Frequency (1990-2017)"), format.args = list(big.mark = (",")), align = c('c','c'))
+    knitr::kable(col.names = c("Destination States", "Frequency (1990-2017)"), format.args = list(big.mark = (",")), align = c('c','c')) %>% 
+                  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F)
 ```
 
 Now, let's explore which of these states had the most number of originating flights in each year, starting from 1990 to 2017. 
@@ -122,6 +128,7 @@ df %>%
           ylab("Number of flights") +
             scale_fill_discrete(name = "Origin States")
 ```
+<br>
 **Figure 3: The number of outgoing flights operated yearly by origin states**
 
 Now, let's explore which of these states had the most number of arriving flights in each year, starting from 1990 to 2017. 
@@ -135,6 +142,7 @@ df %>%
           ylab("Number of flights") +
             scale_fill_discrete(name = "Destination States")
 ```
+<br>
 **Figure 4: The number of incoming flights operated yearly by destination states**
 
 We notice surprisingly that the distribution of origin states and destination states for airlines is almost identical. Before 2002, *California* was the state with the highest number of incoming and outgoing flights. 
@@ -189,6 +197,7 @@ df %>%
             ylab("Number of flights") +
               scale_fill_discrete(name = "Carrier Names")
 ```
+<br>
 **Figure 5: The number of flights operating within Alaska of different carriers**
 
 Here too, we see an anomaly in 2002, when the number of flights being operated by *Hageland Aviation Service* were anomalously high! Let us now explore other data in the airlines dataset. Let us explore during which quarters did passengers travel the most during 1990-2017. 
@@ -199,7 +208,8 @@ df %>%
     group_by(QUARTER) %>% 
       summarise(n = sum(PASSENGERS)) %>% 
         arrange(desc(n)) %>% 
-          knitr::kable(col.names = c("Quarter", "Number"), align = c('c','c'), format.args = list(big.mark = ","))
+          knitr::kable(col.names = c("Quarter", "Number"), align = c('c','c'), format.args = list(big.mark = ",")) %>% 
+                  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F)
 ```
 
 We can see that passengers traveled the most during Quarter 3. Let us see during which month the most amount of travel occurred. 
@@ -210,7 +220,8 @@ df %>%
     group_by(MONTH) %>% 
       summarise(n = sum(PASSENGERS)) %>%  
         arrange(desc(n)) %>% 
-          knitr::kable(col.names = c("Month", "Number"), align = c('c','c'), format.args = list(big.mark = ","))
+          knitr::kable(col.names = c("Month", "Number"), align = c('c','c'), format.args = list(big.mark = ",")) %>% 
+                  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F)
 ```
 
 We can see that the most amount of travel occurs in July and August. Let us see during which month did the most travel occur over 1990 to 2017.
@@ -226,7 +237,8 @@ df %>%
       summarise(n = sum(PASSENGERS)) %>% 
         arrange(desc(n)) %>%
           head(5) %>% 
-            knitr::kable(col.names = c("Month and year", "Number"), format.args = list(big.mark = ","), align = c('c','c'))
+            knitr::kable(col.names = c("Month and year", "Number"), format.args = list(big.mark = ","), align = c('c','c')) %>% 
+                  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F)
 ```
 
 Thus, we observe that passengers traveled the most since 1990 in July 2016, followed by July 2015, followed by June 2016, and August 2016. The year in which the most travel occurred is as follows:
@@ -238,7 +250,8 @@ df %>%
       summarise(n = sum(PASSENGERS)) %>%  
         arrange(desc(n)) %>% 
           head(5) %>% 
-            knitr::kable(col.names = c("Year", "Number"), align = c('c','c'), format.args = list(big.mark = ","))
+            knitr::kable(col.names = c("Year", "Number"), align = c('c','c'), format.args = list(big.mark = ",")) %>% 
+                  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F)
 ```
 
 We can see that the highest amount of travel occurred in 2016, followed by 2015 and 2007. Thus, passengers traveled the most in Quarter 3, in months July and August, specifically the highest ever in July 2016 and in the year 2016.
